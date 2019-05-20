@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "464145844616",
+    "firebase_url": "https://polis-63370.firebaseio.com",
+    "project_id": "polis-63370",
+    "storage_bucket": "polis-63370.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464145844616:android:38cbdfcfc119584f",
+        "android_client_info": {
+          "package_name": "com.example.polis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464145844616-8qn6vdn4sgf17qspa200fa09ek3flr7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPm_brfuqD_dMnOMyH4Mkubscj_hTori0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464145844616-8qn6vdn4sgf17qspa200fa09ek3flr7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
