@@ -36,6 +36,13 @@ public class MapFragment extends Fragment {
 
 
     public MapFragment() {
+        if(!isAdded())
+        {
+
+// using this method, we can do whatever we want which will prevent   **java.lang.IllegalStateException: Fragment not attached to Activity** exception.
+            return;
+
+        }
         // Required empty public constructor
         getLocationPermission();
     }
