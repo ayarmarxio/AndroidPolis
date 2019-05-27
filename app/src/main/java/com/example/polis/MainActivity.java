@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             // Start the map activity
                             if (isServiceOK()){
                                 finish();
-                                startActivity(new Intent(getApplicationContext(), MapActivity.class));
+                                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
                             }
                         }
                     }
