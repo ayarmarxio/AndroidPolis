@@ -37,7 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.GeoPoint;
 
-public class MapActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapActivity extends AppCompatActivity {
 
     private static final String TAG = "MapActivity";
 
@@ -56,7 +56,6 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
     //vars
     private boolean mLocationPermissionGranted = false;
     private GoogleMap mGoogleMap;
-    private GoogleApiClient mGoogleApiClient;
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -65,24 +64,7 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-
         getLocationPermission();
-
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Connect the client.
-        mGoogleApiClient.connect();
     }
 
     private void init() {
@@ -96,8 +78,6 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
         accountFragment = new AccountFragment();
 
         setFragment(mapFragment);
-
-
         mMapNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -126,6 +106,7 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
         if (ContextCompat.checkSelfPermission(this, FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
+                init();
             } else {
                 ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
             }
@@ -150,6 +131,7 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
                     }
                     Log.d(TAG, "OnRequestPermissionsResult: permisssion granted");
                     mLocationPermissionGranted = true;
+                    init();
                 }
             }
         }
@@ -182,74 +164,6 @@ public class MapActivity extends AppCompatActivity implements GoogleApiClient.Co
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.map_frame, fragment);
         fragmentTransaction.commit();
-
-    }
-
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        Task location = mFusedLocationClient.getLastLocation();
-
-        if (location != null) {
-            location.addOnCompleteListener(new OnCompleteListener() {
-                @Override
-                public void onComplete(@NonNull Task task) {
-                    if (task.isSuccessful()) {
-                        Location currentLocation = (Location) task.getResult();
-                        Double latitude = currentLocation.getLatitude();
-                        Double longitude = currentLocation.getLongitude();
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Unable to get current location", Toast.LENGTH_SHORT).show();
-                        ;
-                    }
-                }
-            });
-
-
-            init();
-        }
-        else {
-            new AlertDialog.Builder(this)
-                    .setTitle("Please activate location")
-                    .setMessage("Click ok to goto settings else exit.")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivity(intent);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            System.exit(0);
-                        }
-                    })
-                    .show();
-        }
-    }
-
-    private void moveCamera(LatLng latlng, float zoom){
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }

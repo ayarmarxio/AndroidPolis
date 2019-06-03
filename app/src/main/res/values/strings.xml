@@ -8,4 +8,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="spinner_type">Choose the incident</string>
+
+    <string-array name="type_array">
+        <item>Theft</item>
+        <item>Accident </item>
+        <item>Scam</item>
+    </string-array>
+
 </resources>

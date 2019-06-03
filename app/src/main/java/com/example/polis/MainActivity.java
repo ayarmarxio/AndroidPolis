@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button buttonLogin;
     private TextView ToSignup;
+    private TextView resetTextView;
     //private Button buttonLoginWithFb;
 
     private EditText editTextEmail;
@@ -85,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
             startActivity(new Intent(this, SignupActivity.class));
         }
+        if (v == resetTextView){
+            finish();
+            startActivity(new Intent(this, ResetActivity.class));
+        }
 
         //if (v == buttonLoginWithFb){
             // Login with Facebook logic
@@ -106,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         progressDialog = new ProgressDialog(this);
 
+        resetTextView = (TextView) findViewById(R.id.resetTextView);
+        resetTextView.setOnClickListener(this);
+
 
     }
 
@@ -120,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             // Start the map activity
                             if (isServiceOK()){
                                 finish();
-                                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                                startActivity(new Intent(getApplicationContext(), MapActivity.class));
                             }
                         }
                     }
