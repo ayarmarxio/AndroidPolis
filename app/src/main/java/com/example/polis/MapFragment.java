@@ -26,6 +26,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -43,6 +44,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private boolean mLocationPermissionGranted = true;
     private FusedLocationProviderClient mFusedLocationClient;
     private static final float deafultZoom = 15f;
+
+
 
     public MapFragment() {
         // Required empty public constructor
@@ -89,6 +92,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             Location currentLocation = (Location) task.getResult();
+                            addMarker(currentLocation);
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), deafultZoom);
                         } else {
                             Toast.makeText(getActivity(), "Unable to get current location", Toast.LENGTH_SHORT).show();
@@ -105,5 +109,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private void moveCamera(LatLng latlng, float zoom ){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " +latlng.latitude + ", lng: "  + latlng.longitude);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
+    }
+
+    private void addMarker(Location currentLocation){
+        LatLng position = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mGoogleMap.addMarker(new MarkerOptions().position(position)
+                .title("You are here"));
     }
 }

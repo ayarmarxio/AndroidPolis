@@ -58,7 +58,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         editTextEmail = (EditText) findViewById(R.id.emailTextInput);
         editTextPassword = (EditText) findViewById(R.id.passwordTextInput);
-        editTextPassword = (EditText) findViewById(R.id.confirmPasswordTextInput);
+        editTextConfirmPassword = (EditText) findViewById(R.id.confirmPasswordTextInput);
 
         textViewToLogin = (TextView) findViewById(R.id.textViewToLogin);
         textViewToLogin.setOnClickListener(this);
@@ -68,34 +68,34 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+
         if (v == buttonRegister){
+
             String email = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
+            String confirmationPassword = editTextConfirmPassword.getText().toString().trim();
 
-            if (TextUtils.isEmpty(email)) {
-                //email is empty
-                Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-                // stoping function to executing further
+            isEditTextEmpty(email, password, confirmationPassword);
 
+
+            if (confirmationPassword.equals(password)){
+                // If validations are ok
+                // We will first show a progressbar
+                progressDialog.setMessage("Registering User");
+                progressDialog.show();
+                registrateUser(email, password);
             }
-            if (TextUtils.isEmpty(password)){
-                // password is empty
-                Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-                // stoping function to executing further
+            else {
+                Toast.makeText(this, "Make sure you confirm same password", Toast.LENGTH_SHORT).show();
             }
-            // If validations are ok
-            // We will first show a progressbar
-            progressDialog.setMessage("Registering User");
-            progressDialog.show();
-
-            registrateUser(email, password);
-
         }
+
         if (v == textViewToLogin){
             // We will open the sign in activity
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }
+
     }
 
     public void registrateUser(String email, String pass){
@@ -138,5 +138,26 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, "You can´t make mapo requests", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    public boolean isEditTextEmpty(String email, String password, String confirmationPasssword){
+        if (TextUtils.isEmpty(email)) {
+            //email is empty
+            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+            // stoping function to executing further
+
+        }
+        if (TextUtils.isEmpty(password)){
+            // password is empty
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            // stoping function to executing further
+        }
+        if (TextUtils.isEmpty(confirmationPasssword)){
+            // confirmation password is empty
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            // stoping function to executing furthe
+        }
+
+        return true;
     }
 }

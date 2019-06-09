@@ -1,7 +1,9 @@
 package com.example.polis;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonLogin;
     private TextView ToSignup;
     private TextView resetTextView;
-    //private Button buttonLoginWithFb;
+
 
     private EditText editTextEmail;
     private EditText editTextPassword;
@@ -51,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // profile activity here
             finish();
             startActivity(new Intent(getApplicationContext(), MapActivity.class));
-
         }
     }
 
@@ -106,8 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonLogin.setOnClickListener(this);
 
-        //buttonLoginWithFb = (Button) findViewById(R.id.buttonLoginWithFb);
-        //buttonLoginWithFb.setOnClickListener(this);
 
         progressDialog = new ProgressDialog(this);
 
@@ -124,9 +123,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
 
-                        if (task.isSuccessful()){
-                            // Start the map activity
+                        if (!task.isSuccessful()){
+                            Toast.makeText(getApplicationContext(), "Please, check your user name or password", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
                             if (isServiceOK()){
+                                // Start the map activity
                                 finish();
                                 startActivity(new Intent(getApplicationContext(), MapActivity.class));
                             }

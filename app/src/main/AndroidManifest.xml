@@ -17,7 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ResetActivity"></activity>
-        <activity android:name=".PrincipalActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
