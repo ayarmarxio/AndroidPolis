@@ -12,7 +12,7 @@
         android:layout_width="267dp"
         android:layout_height="58dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Please write your e-mail. We will send you a link to reset your password."
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,13 +55,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@android:color/holo_green_light"
         android:fontFamily="@font/gugi_regular"
         android:text="Back to Login"
         android:textColor="@android:color/white"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.044"
-        app:layout_constraintTop_toBottomOf="@+id/sendResetEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/sendResetEmail"
+        app:layout_constraintVertical_bias="0.044" />
+
 </android.support.constraint.ConstraintLayout>

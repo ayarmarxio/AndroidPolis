@@ -2,7 +2,6 @@ package com.example.polis;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -14,12 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toast;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 
 public class MapActivity extends AppCompatActivity {
 
@@ -53,7 +49,7 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         getLocationPermission();
-        getDeviceLocation();
+        init();
     }
 
     private void getLocationPermission() {
@@ -63,7 +59,6 @@ public class MapActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
-                init();
             } else {
                 ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
             }
@@ -80,8 +75,6 @@ public class MapActivity extends AppCompatActivity {
         mapFragment = new MapFragment();
         reportFragment = new ReportFragment();
         accountFragment = new AccountFragment();
-
-        setFragment(mapFragment);
 
         mMapNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -122,29 +115,6 @@ public class MapActivity extends AppCompatActivity {
                     init();
                 }
             }
-        }
-    }
-
-    private void getDeviceLocation() {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        Log.d("TAG", "get Last Known Location: getting current device location");
-        try {
-            if (mLocationPermissionGranted) {
-                Task location = mFusedLocationClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Location currentLocation = (Location) task.getResult();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Unable to get current location", Toast.LENGTH_SHORT).show();
-                            ;
-                        }
-                    }
-                });
-            }
-        } catch (SecurityException e) {
-            Log.d(TAG, "getDeviceLocation: Security Exception: " + e.getMessage());
         }
     }
 

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.polis.Models.Credentials;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,9 +32,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private TextView textViewToLogin;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
-
     private static final String TAG = "MapActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
+
+    private String email;
+    private String password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_signup);
 
         init();
+
+        Credentials credentials = (Credentials)getIntent().getParcelableExtra("credentials");
+        email = credentials.getEmail();
+        password = credentials.getPassword();
+
+        editTextEmail.setText(email);
+        editTextPassword.setText(password);
+
     }
 
     private void init() {
@@ -71,8 +83,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         if (v == buttonRegister){
 
-            String email = editTextEmail.getText().toString().trim();
-            String password = editTextPassword.getText().toString().trim();
+            email = editTextEmail.getText().toString().trim();
+            password = editTextPassword.getText().toString().trim();
             String confirmationPassword = editTextConfirmPassword.getText().toString().trim();
 
             isEditTextEmpty(email, password, confirmationPassword);

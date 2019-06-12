@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.polis.Models.Credentials;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MapActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
+    private String email;
+    private String password;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == buttonLogin){
-            String email = editTextEmail.getText().toString().trim();
-            String password = editTextPassword.getText().toString().trim();
+            email = editTextEmail.getText().toString().trim();
+            password = editTextPassword.getText().toString().trim();
 
             if (TextUtils.isEmpty(email)) {
                 //email is empty
@@ -84,17 +90,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (v == ToSignup){
             // We will open the sign in activity
-            finish();
-            startActivity(new Intent(this, SignupActivity.class));
+            Intent signUpIntent = new Intent(MainActivity.this, SignupActivity.class);
+            Credentials credentials = new Credentials();
+            credentials.setEmail(editTextEmail.getText().toString().trim());
+            credentials.setPassword(editTextPassword.getText().toString().trim());
+
+            signUpIntent.putExtra("credentials", credentials);
+            startActivity(signUpIntent);
         }
         if (v == resetTextView){
             finish();
             startActivity(new Intent(this, ResetActivity.class));
         }
-
-        //if (v == buttonLoginWithFb){
-            // Login with Facebook logic
-        //}
     }
 
     public void init(){
@@ -156,5 +163,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "You can´t make map requests", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        outState.putString("email", email);
+        outState.putString("password", password);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        this.email = savedInstanceState.getString("email");
+        this.password = savedInstanceState.getString("password");
+
     }
 }

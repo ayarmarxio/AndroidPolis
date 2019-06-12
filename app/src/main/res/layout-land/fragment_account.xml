@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".AccountFragment">
 
-
     <Button
         android:id="@+id/btnChoose"
         android:layout_width="395dp"

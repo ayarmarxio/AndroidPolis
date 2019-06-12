@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MapActivity">
 
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -23,11 +22,12 @@
     <FrameLayout
         android:id="@+id/map_frame"
         android:layout_width="395dp"
-        android:layout_height="452dp"
+        android:layout_height="230dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>

@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Console;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +45,6 @@ import java.util.Date;
  * A simple {@link Fragment} subclass.
  */
 public class ReportFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
 
     private View mView;
     Button calendarBtn;
@@ -73,7 +73,6 @@ public class ReportFragment extends Fragment implements View.OnClickListener, Ad
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,19 +84,28 @@ public class ReportFragment extends Fragment implements View.OnClickListener, Ad
         logOutBtn = (Button) mView.findViewById(R.id.logOutBtn);
         logOutBtn.setOnClickListener(this);
 
-        // Check if the savedInstanceSTate contains the date String key.
-//        if (savedInstanceState != null) {
-                // Consider doing complex tasks like parsing etc. in the background.
-                // Parsing a date shouldn't be the issue here but doing many things like this may
-                // be the cause of the performance issue.
-
-/*            timeStampToSave = dateFormat.parse(savedInstanceState.getString(stateDate));
-            incidentName = savedInstanceState.getString(incedentType);
-
-
-            }*/
-//        }
         return mView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        // Check if the savedInstanceSTate contains the date String key.
+
+        if (savedInstanceState != null) {
+            // Consider doing complex tasks like parsing etc. in the background.
+            // Parsing a date shouldn't be the issue here but doing many things like this may
+            // be the cause of the performance issue.
+            DateFormat format = new SimpleDateFormat("yyyy, mm, dd hh:mm:ss");
+            try {
+                timeStampToSave = format.parse(savedInstanceState.getString(dateToSaveInstance));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            incidentName = savedInstanceState.getString(incidentName);
+            detailedText = savedInstanceState.getString(detailedText);
+        }
     }
 
     @Override
@@ -138,10 +146,9 @@ public class ReportFragment extends Fragment implements View.OnClickListener, Ad
                         //to convert Date to String, use format method of SimpleDateFormat class.
                         dateToSaveInstance = dateFormat1.format(timeStampToSave);
 
-
-
                     }
                 }, day, month, year);
+                datePickerDialog.updateDate(2019, 05, 01);
                 datePickerDialog.show();
             }
         });
@@ -225,14 +232,14 @@ public class ReportFragment extends Fragment implements View.OnClickListener, Ad
     }
 
 
-/*    @Override
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
-        savedInstanceState.putString("incedentType", incidentName);
+        savedInstanceState.putString("incidentType", incidentName);
         savedInstanceState.putString("detailedText   ", detailedText);
         savedInstanceState.putString("stateDate", dateToSaveInstance);
-    }*/
+    }
 
 
 }
