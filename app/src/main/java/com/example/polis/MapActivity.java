@@ -76,6 +76,8 @@ public class MapActivity extends AppCompatActivity {
         reportFragment = new ReportFragment();
         accountFragment = new AccountFragment();
 
+        setFragment(mapFragment);
+
         mMapNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
